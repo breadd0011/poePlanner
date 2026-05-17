@@ -12,7 +12,7 @@ scraper\scripts\generate_payload.bat
 scraper\scripts\show_health_report.bat
 ```
 
-This now prints socket-compatible augment coverage after the payload is written. If the UI shows stale or incomplete augment coverage, use the force-refresh helper below.
+This now prints a compact socket-compatible augment summary after the payload is written. Use `python scraper\run_poc.py --report-detail full --debug --write-schema` when you need the old detailed per-class rows and individual warning lines. If the UI shows stale or incomplete augment coverage, use the force-refresh helper below.
 
 To preview the smaller future frontend contract, run:
 
@@ -74,6 +74,14 @@ Talismans are treated as supported weapon modifiers. Traps are intentionally out
 ```bat
 scraper\scripts\run_scraper_tests.bat
 ```
+
+### Strict release-style validation
+
+```bat
+python scraper\run_poc.py --build-mode strict --debug --write-schema --report-detail compact
+```
+
+Strict mode disables previous generated output reuse and stale-cache fallback. Run it after the normal dev payload succeeds when you want to check whether the scraper can stand on fresh/current inputs instead of local generated artifacts.
 
 ## Base item catalogue refresh
 

@@ -31,8 +31,9 @@ From inside `scraper/`:
 
 ```bat
 python run_poc.py --debug --write-schema
+python run_poc.py --debug --write-schema --report-detail full
 python run_poc.py --slim-ui-payload
-python run_poc.py --build-mode strict --force-refresh
+python run_poc.py --build-mode strict --debug --write-schema
 python -m pytest tests
 ```
 
@@ -45,6 +46,20 @@ Generated outputs:
 - `out/poe2db_poc_diagnostics.json` - scraper/CI diagnostics split out from the runtime contract.
 - `out/poe2db_poc_debug.json` - optional verbose debug output with `--debug`.
 - `out/poe2db_poc_schema.json` - optional full Pydantic-derived JSON schema with `--write-schema`.
+
+
+Console reporting:
+
+- The default console report is compact so successful builds are easier to scan. It prints totals, grouped warning codes, and short action/review lines.
+- Use `--report-detail full` when you need the old per-class health rows or individual socket/augment warning details.
+- Large diagnostic detail is written to `out/poe2db_poc_diagnostics.json`; the console should stay readable and point you there for drill-downs.
+
+Follow-up validation checks:
+
+- Socket augment warnings are grouped by code in compact mode. `socket_candidate_missing_equipment_target` means the entry was classified as socket-compatible, but the parser could not prove a weapon/armour target condition from the parsed effects. Keep these behind diagnostics until the UI target mapping is confirmed.
+- Rune bonded-effect gaps are now highlighted by count and sample names instead of being hidden behind requirement warnings. Missing bonded effects are review items unless normal item effects are missing.
+- Augment catalogue expected counts from PoE2DB section labels are treated as lower-bound label counts. If the parser discovers more classified links than the label count, the compact report shows the extra count instead of a misleading `344 / 178` style ratio.
+- If modifier snapshot fixtures are missing but runtime pools are parsed from live/cache, the compact report prints a reproducibility note. Use `--write-modifier-html-cache` or the modifier refresh helpers when you want checked-in fixture parity.
 
 Build modes and write flags:
 

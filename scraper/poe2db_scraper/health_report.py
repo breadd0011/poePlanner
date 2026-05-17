@@ -1229,7 +1229,146 @@ def build_payload_health_report(payload: dict[str, Any]) -> dict[str, Any]:
     return report
 
 
-def print_payload_health_report(report: dict[str, Any]) -> None:
+def _int_metric(value: Any) -> int:
+    try:
+        return int(value or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _sum_metric(rows: dict[str, Any], field: str) -> int:
+    total = 0
+    for row in rows.values():
+        if isinstance(row, dict):
+            metric = row.get(field) or {}
+            if isinstance(metric, dict):
+                total += _int_metric(metric.get("withValue"))
+    return total
+
+
+def _compact_status_counts(rows: dict[str, Any], key: str = "status") -> str:
+    counts: dict[str, int] = {}
+    for row in rows.values():
+        if not isinstance(row, dict):
+            continue
+        value = str(row.get(key) or "unknown")
+        counts[value] = counts.get(value, 0) + 1
+    return ", ".join(f"{name}={count}" for name, count in sorted(counts.items()))
+
+
+def _print_compact_payload_health_report(report: dict[str, Any]) -> None:
+    status = str(report.get("status") or "unknown").upper()
+    print(f"Payload health: {status}")
+
+    unique_by_class = report.get("uniqueItems", {}).get("byClass") or {}
+    if unique_by_class:
+        total = sum(_int_metric(row.get("total")) for row in unique_by_class.values() if isinstance(row, dict))
+        print(
+            "Unique items: "
+            f"{total} total across {len(unique_by_class)} classes; "
+            f"icons {_sum_metric(unique_by_class, 'icon')}/{total}, "
+            f"flavourText {_sum_metric(unique_by_class, 'flavourText')}/{total}, "
+            f"explicitMods {_sum_metric(unique_by_class, 'explicitMods')}/{total}"
+        )
+
+    weapon_unique = report.get("weaponUniqueProduction") or {}
+    if weapon_unique:
+        summary = weapon_unique.get("summary") or {}
+        print(
+            "Weapon unique production: "
+            f"{str(weapon_unique.get('status') or 'unknown').upper()}, "
+            f"{_int_metric(summary.get('importedUniqueItems'))}/{_int_metric(summary.get('expectedUniqueItems'))} imported, "
+            f"{_int_metric(summary.get('weaponUniqueClassesOk'))}/{_int_metric(summary.get('weaponUniqueClasses'))} classes OK"
+        )
+
+    base_by_class = report.get("baseItems", {}).get("byClass") or {}
+    if base_by_class:
+        total = sum(_int_metric(row.get("total")) for row in base_by_class.values() if isinstance(row, dict))
+        print(
+            "Base items: "
+            f"{total} total across {len(base_by_class)} classes; "
+            f"icons {_sum_metric(base_by_class, 'icon')}/{total}, "
+            f"sourceUrl {_sum_metric(base_by_class, 'sourceUrl')}/{total}"
+        )
+
+    modifier = report.get("modifierPools") or {}
+    editor = modifier.get("editor") or {}
+    normal = modifier.get("normalExplicit") or {}
+    print(
+        "Modifier pools: "
+        f"{_int_metric(editor.get('poolCount'))} editor pools / {_int_metric(editor.get('modCount'))} editor mods; "
+        f"{_int_metric(normal.get('poolCount'))} normal pools / "
+        f"{_int_metric(normal.get('prefixCount'))} prefixes / {_int_metric(normal.get('suffixCount'))} suffixes"
+    )
+
+    coverage_by_class = (report.get("modifierCoverage") or {}).get("byClass") or {}
+    if coverage_by_class:
+        required = [
+            row
+            for row in coverage_by_class.values()
+            if isinstance(row, dict) and str(row.get("supportState")) == "required"
+        ]
+        ok_required = sum(1 for row in required if str(row.get("coverageStatus")) == "ok")
+        missing_fixture_rows = []
+        for item_class, row in coverage_by_class.items():
+            if not isinstance(row, dict):
+                continue
+            snapshot = row.get("snapshotStatus") or {}
+            if not isinstance(snapshot, dict):
+                continue
+            editor_pools = _int_metric((row.get("editor") or {}).get("pools"))
+            normal_pools = _int_metric((row.get("normalExplicit") or {}).get("pools"))
+            if snapshot.get("modifiersCalc") == "missing" and (editor_pools or normal_pools):
+                missing_fixture_rows.append(str(item_class))
+        print(
+            "Modifier coverage: "
+            f"{ok_required}/{len(required)} required classes OK"
+            + (f"; statuses {_compact_status_counts(coverage_by_class, 'coverageStatus')}" if coverage_by_class else "")
+        )
+        if missing_fixture_rows:
+            print(
+                "Modifier snapshot fixtures: "
+                f"missing for {len(missing_fixture_rows)} classes, but runtime pools were parsed from live/cache. "
+                "Use --write-modifier-html-cache or --update-snapshots when you want reproducible checked-in fixtures."
+            )
+
+    binding = report.get("itemEditorBinding") or {}
+    if binding:
+        summary = binding.get("summary") or {}
+        print(
+            "Item editor binding: "
+            f"{str(binding.get('status') or 'unknown').upper()}, "
+            f"{_int_metric(summary.get('optionsWithEditorPools'))}/{_int_metric(summary.get('itemOptions'))} editor-bound, "
+            f"{_int_metric(summary.get('optionsWithNormalExplicitPools'))}/{_int_metric(summary.get('itemOptions'))} normal-bound"
+        )
+
+    unique_binding = report.get("uniqueEditorBinding") or {}
+    if unique_binding:
+        summary = unique_binding.get("summary") or {}
+        bindable = _int_metric(summary.get("bindableUniqueOptions") or summary.get("uniqueOptions"))
+        print(
+            "Unique editor binding: "
+            f"{str(unique_binding.get('status') or 'unknown').upper()}, "
+            f"{_int_metric(summary.get('optionsWithBaseItems'))}/{_int_metric(summary.get('uniqueOptions'))} base-matched, "
+            f"{_int_metric(summary.get('optionsWithEditorPools'))}/{bindable} editor-bound, "
+            f"{_int_metric(summary.get('optionsWithNormalExplicitPools'))}/{bindable} normal-bound"
+        )
+
+    warnings = report.get("warnings") or []
+    if warnings:
+        errors = sum(1 for warning in warnings if isinstance(warning, dict) and warning.get("severity") == "error")
+        warn = sum(1 for warning in warnings if isinstance(warning, dict) and warning.get("severity") == "warning")
+        info = len(warnings) - errors - warn
+        print(f"Health warnings: errors={errors}, warnings={warn}, info={info}. Use --report-detail full for individual rows.")
+    else:
+        print("Health warnings: none")
+
+
+def print_payload_health_report(report: dict[str, Any], *, detail: str = "full") -> None:
+    if detail == "compact":
+        _print_compact_payload_health_report(report)
+        return
+
     status = str(report.get("status") or "unknown").upper()
     print(f"Payload health: {status}")
 

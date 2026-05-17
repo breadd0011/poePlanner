@@ -1715,9 +1715,17 @@ def _augment_index_audit_report(index: dict[str, Any]) -> dict[str, Any]:
                     "message": f"Augment Item audit found {len(augment_rune_like)} rune-like entries that should stay filtered out of the picker until classified.",
                 }
             )
+    over_label_count = sum(
+        max(0, int(section.get("discovered") or 0) - int(section.get("expected") or 0))
+        for section in sections
+        if section.get("expected") is not None
+    )
     return {
         "expectedTotal": total_expected,
+        "expectedTotalSource": "poe2db_section_labels",
+        "expectedComparison": "at_least",
         "discoveredTotal": total_discovered,
+        "extraDiscoveredOverLabel": over_label_count,
         "sections": sections,
         "categoryCounts": dict(sorted(category_counts.items())),
         "warningCounts": _augment_warning_counts(warnings),

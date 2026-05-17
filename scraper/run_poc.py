@@ -50,7 +50,64 @@ def _augment_warning_summary(warning: dict[str, object]) -> str:
     return f"{prefix}: {message}" if message else prefix
 
 
-def print_augment_coverage_summary(ui_payload: dict[str, object]) -> None:
+def _warning_code_counts(warnings: object) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    if not isinstance(warnings, list):
+        return counts
+    for warning in warnings:
+        if isinstance(warning, dict):
+            code = str(warning.get("code") or "warning")
+        else:
+            code = "warning"
+        counts[code] = counts.get(code, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _warning_names(warnings: object, code: str, *, limit: int = 6) -> list[str]:
+    names: list[str] = []
+    if not isinstance(warnings, list):
+        return names
+    for warning in warnings:
+        if not isinstance(warning, dict) or str(warning.get("code") or "") != code:
+            continue
+        name = str(warning.get("augmentName") or warning.get("section") or "").strip()
+        if name and name not in names:
+            names.append(name)
+        if len(names) >= limit:
+            break
+    return names
+
+
+def _format_counts(counts: dict[str, int]) -> str:
+    return ", ".join(f"{key}={value}" for key, value in sorted(counts.items()))
+
+
+def _print_warning_groups(warnings: object, *, indent: str = "  ", sample_limit: int = 5) -> None:
+    counts = _warning_code_counts(warnings)
+    if not counts:
+        print(f"{indent}Warnings: none")
+        return
+    print(f"{indent}Warnings by code: {_format_counts(counts)}")
+    if isinstance(warnings, list):
+        for code in counts:
+            names = _warning_names(warnings, code, limit=sample_limit)
+            if names:
+                suffix = "" if counts[code] <= len(names) else f", +{counts[code] - len(names)} more"
+                print(f"{indent}  {code}: {', '.join(names)}{suffix}")
+
+
+def _format_label_count(discovered: int, expected_raw: object) -> str:
+    if expected_raw is None:
+        return f"{discovered} discovered"
+    expected = _int_value(expected_raw)
+    if discovered > expected:
+        return f"{discovered} discovered (label count {expected}, +{discovered - expected} extra classified links)"
+    if discovered == expected:
+        return f"{discovered} discovered (label count {expected})"
+    return f"{discovered} discovered (below label count {expected})"
+
+
+def print_augment_coverage_summary(ui_payload: dict[str, object], *, detail: str = "full") -> None:
     sanity = ui_payload.get("parserSanity") if isinstance(ui_payload, dict) else None
     if not isinstance(sanity, dict):
         return
@@ -69,25 +126,24 @@ def print_augment_coverage_summary(ui_payload: dict[str, object]) -> None:
 
     print("")
     print("Rune augment coverage")
-    print(f"  Loaded: {loaded} / {expected}")
-    print(f"  Discovered in index: {discovered} / {expected}")
-    print(f"  With normal effects: {with_normal} / {loaded}")
-    print(f"  With bonded effects: {with_bonded} / {loaded}")
-    print(f"  With icons: {with_icons} / {loaded}")
-    print(f"  With requirements: {with_requirements} / {loaded}")
+    print(f"  Loaded: {loaded} / {expected}; discovered in index: {discovered} / {expected}")
+    print(f"  Effects/icons: normal {with_normal}/{loaded}, bonded {with_bonded}/{loaded}, icons {with_icons}/{loaded}, requirements {with_requirements}/{loaded}")
 
     source_counts = coverage.get("dataSourceCounts")
     if isinstance(source_counts, dict) and source_counts:
-        formatted_sources = ", ".join(f"{key}={value}" for key, value in sorted(source_counts.items()))
-        print(f"  Data sources: {formatted_sources}")
-
-    warning_counts = coverage.get("warningCounts")
-    if isinstance(warning_counts, dict) and warning_counts:
-        formatted_warnings = ", ".join(f"{key}={value}" for key, value in sorted(warning_counts.items()))
-        print(f"  Warning counts: {formatted_warnings}")
+        print(f"  Data sources: {_format_counts({str(k): _int_value(v) for k, v in source_counts.items()})}")
 
     validation_warnings = coverage.get("validationWarnings")
-    if isinstance(validation_warnings, list) and validation_warnings:
+    missing_bonded = coverage.get("missingBondedEffects")
+    if isinstance(missing_bonded, list) and missing_bonded:
+        sample = ", ".join(str(name) for name in missing_bonded[:6])
+        remaining = len(missing_bonded) - min(len(missing_bonded), 6)
+        suffix = f", +{remaining} more" if remaining else ""
+        print(f"  Missing bonded effects: {len(missing_bonded)} ({sample}{suffix})")
+
+    if detail == "compact":
+        _print_warning_groups(validation_warnings, indent="  ")
+    elif isinstance(validation_warnings, list) and validation_warnings:
         print("  Warnings:")
         for warning in validation_warnings[:12]:
             if isinstance(warning, dict):
@@ -96,20 +152,21 @@ def print_augment_coverage_summary(ui_payload: dict[str, object]) -> None:
                 print(f"    - {warning}")
         remaining = len(validation_warnings) - 12
         if remaining > 0:
-            print(f"    - ... {remaining} more warning(s); inspect scraper/out/poe2db_poc_ui.json or the Developer data panel")
+            print(f"    - ... {remaining} more warning(s); inspect scraper/out/poe2db_poc_diagnostics.json")
 
     if loaded <= 1 and expected > 1:
         print("  ACTION: Only one rune augment is loaded. Run scraper\\scripts\\refresh_rune_augments.bat or run python scraper\\run_poc.py with --force-refresh.")
+    elif with_normal < loaded:
+        print("  ACTION: Rune augment coverage is incomplete because one or more normal effects are missing. Inspect poe2db_poc_diagnostics.json.")
+    elif _int_value((coverage.get("warningCounts") or {}).get("error")) or _int_value((coverage.get("warningCounts") or {}).get("warning")):
+        print("  REVIEW: Rune data loaded, but warnings remain. Inspect poe2db_poc_diagnostics.json before exposing new socket behavior.")
     elif not complete:
-        print("  ACTION: Rune augment coverage is incomplete. Inspect the warnings above and the Developer data panel.")
+        print("  REVIEW: Rune augment coverage has non-blocking gaps, usually requirements or bonded effects. Inspect diagnostics if these matter to the UI.")
     else:
         print("  OK: Rune augment coverage looks complete.")
 
 
-
-
-
-def print_augment_catalogue_summary(ui_payload: dict[str, object]) -> None:
+def print_augment_catalogue_summary(ui_payload: dict[str, object], *, detail: str = "full") -> None:
     catalogue = ui_payload.get("augmentCatalogue") if isinstance(ui_payload, dict) else None
     if not isinstance(catalogue, dict):
         return
@@ -123,33 +180,30 @@ def print_augment_catalogue_summary(ui_payload: dict[str, object]) -> None:
 
     print("")
     print("Augment catalogue registry")
-    print(f"  Entries: {total}")
-    print(f"  Socket picker candidates: {socket_candidates}")
-    print(f"  Catalogue-only entries: {catalogue_only}")
-    print(f"  Detail loaded: {_int_value(catalogue.get('detailLoadedCount'))}")
-    print(f"  Detail failed: {_int_value(catalogue.get('detailFailedCount'))}")
-    print(f"  Index-only: {_int_value(catalogue.get('indexOnlyCount'))}")
-    print(f"  Entries with parsed effects: {_int_value(catalogue.get('entriesWithEffects'))}")
+    print(f"  Entries: {total}; socket picker candidates: {socket_candidates}; catalogue-only: {catalogue_only}")
+    if detail == "full":
+        print(f"  Socket picker candidates: {socket_candidates}")
+        print(f"  Catalogue-only entries: {catalogue_only}")
+        print(f"  Detail loaded: {_int_value(catalogue.get('detailLoadedCount'))}")
+        print(f"  Index-only: {_int_value(catalogue.get('indexOnlyCount'))}")
+    print(f"  Detail: loaded {_int_value(catalogue.get('detailLoadedCount'))}, failed {_int_value(catalogue.get('detailFailedCount'))}, index-only {_int_value(catalogue.get('indexOnlyCount'))}, with parsed effects {_int_value(catalogue.get('entriesWithEffects'))}")
 
     section_counts = catalogue.get("sectionCounts")
     if isinstance(section_counts, dict) and section_counts:
-        formatted_sections = ", ".join(f"{key}={value}" for key, value in sorted(section_counts.items()))
-        print(f"  Sections: {formatted_sections}")
+        print(f"  Sections: {_format_counts({str(k): _int_value(v) for k, v in section_counts.items()})}")
 
     category_counts = catalogue.get("categoryCounts")
     if isinstance(category_counts, dict) and category_counts:
-        formatted_categories = ", ".join(f"{key}={value}" for key, value in sorted(category_counts.items()))
-        print(f"  Categories: {formatted_categories}")
+        print(f"  Categories: {_format_counts({str(k): _int_value(v) for k, v in category_counts.items()})}")
 
-    detail_status_counts = catalogue.get("detailStatusCounts")
-    if isinstance(detail_status_counts, dict) and detail_status_counts:
-        formatted_detail_status = ", ".join(f"{key}={value}" for key, value in sorted(detail_status_counts.items()))
-        print(f"  Detail statuses: {formatted_detail_status}")
+    if detail == "full":
+        detail_status_counts = catalogue.get("detailStatusCounts")
+        if isinstance(detail_status_counts, dict) and detail_status_counts:
+            print(f"  Detail statuses: {_format_counts({str(k): _int_value(v) for k, v in detail_status_counts.items()})}")
 
-    detail_source_counts = catalogue.get("detailSourceCounts")
-    if isinstance(detail_source_counts, dict) and detail_source_counts:
-        formatted_detail_sources = ", ".join(f"{key}={value}" for key, value in sorted(detail_source_counts.items()))
-        print(f"  Detail sources: {formatted_detail_sources}")
+        detail_source_counts = catalogue.get("detailSourceCounts")
+        if isinstance(detail_source_counts, dict) and detail_source_counts:
+            print(f"  Detail sources: {_format_counts({str(k): _int_value(v) for k, v in detail_source_counts.items()})}")
 
     if total and socket_candidates == total:
         print("  NOTE: All catalogue entries are currently socket candidates; verify classification before exposing new entries in the picker.")
@@ -157,8 +211,7 @@ def print_augment_catalogue_summary(ui_payload: dict[str, object]) -> None:
         print("  OK: Non-rune catalogue entries are retained read-only and filtered out of the socket picker.")
 
 
-
-def print_socket_candidate_guardrail_summary(ui_payload: dict[str, object]) -> None:
+def print_socket_candidate_guardrail_summary(ui_payload: dict[str, object], *, detail: str = "full") -> None:
     catalogue = ui_payload.get("augmentCatalogue") if isinstance(ui_payload, dict) else None
     audit = catalogue.get("socketCandidateAudit") if isinstance(catalogue, dict) else None
     if not isinstance(audit, dict):
@@ -166,37 +219,50 @@ def print_socket_candidate_guardrail_summary(ui_payload: dict[str, object]) -> N
 
     print("")
     print("Socket-compatible augment guardrails")
-    print(f"  Socket candidates: {_int_value(audit.get('socketCandidateCount'))}")
-    print(f"  Rune Item candidates: {_int_value(audit.get('runeItemCandidates'))}")
-    print(f"  Soul Core candidates: {_int_value(audit.get('soulCoreCandidates'))}")
-    print(f"  Other socketable augments: {_int_value(audit.get('otherSocketableAugments'))}")
-    print(f"  Excluded reference entries: {_int_value(audit.get('excludedReferenceEntries'))}")
+    print(
+        "  Candidates: "
+        f"{_int_value(audit.get('socketCandidateCount'))} total; "
+        f"Rune Item {_int_value(audit.get('runeItemCandidates'))}, "
+        f"Soul Core {_int_value(audit.get('soulCoreCandidates'))}, "
+        f"other {_int_value(audit.get('otherSocketableAugments'))}; "
+        f"excluded refs {_int_value(audit.get('excludedReferenceEntries'))}"
+    )
+    if detail == "full":
+        print(f"  Rune Item candidates: {_int_value(audit.get('runeItemCandidates'))}")
+        print(f"  Soul Core candidates: {_int_value(audit.get('soulCoreCandidates'))}")
+        print(f"  Other socketable augments: {_int_value(audit.get('otherSocketableAugments'))}")
+        print(f"  Excluded reference entries: {_int_value(audit.get('excludedReferenceEntries'))}")
 
     by_category = audit.get("socketCandidatesByCategory")
     if isinstance(by_category, dict) and by_category:
-        formatted = ", ".join(f"{key}={value}" for key, value in sorted(by_category.items()))
-        print(f"  By category: {formatted}")
+        print(f"  By category: {_format_counts({str(k): _int_value(v) for k, v in by_category.items()})}")
 
     by_reason = audit.get("socketCandidatesByReason")
     if isinstance(by_reason, dict) and by_reason:
-        formatted = ", ".join(f"{key}={value}" for key, value in sorted(by_reason.items()))
-        print(f"  By reason: {formatted}")
+        print(f"  By reason: {_format_counts({str(k): _int_value(v) for k, v in by_reason.items()})}")
 
     warnings = audit.get("validationWarnings")
     if isinstance(warnings, list) and warnings:
-        print("  Warnings:")
-        for warning in warnings[:12]:
-            if isinstance(warning, dict):
-                print(f"    - {_augment_warning_summary(warning)}")
-            else:
-                print(f"    - {warning}")
-        remaining = len(warnings) - 12
-        if remaining > 0:
-            print(f"    - ... {remaining} more warning(s); inspect scraper/out/poe2db_poc_ui.json or the Developer data panel")
+        if detail == "full":
+            print("  Warnings:")
+        _print_warning_groups(warnings, indent="  ")
+        if detail == "full":
+            print("  Warning details:")
+            for warning in warnings[:12]:
+                if isinstance(warning, dict):
+                    print(f"    - {_augment_warning_summary(warning)}")
+                else:
+                    print(f"    - {warning}")
+            remaining = len(warnings) - 12
+            if remaining > 0:
+                print(f"    - ... {remaining} more warning(s); inspect scraper/out/poe2db_poc_diagnostics.json")
+        else:
+            print("  REVIEW: Some socket candidates lack explicit parsed equipment targets. Keep them behind diagnostics until target mapping is confirmed.")
     else:
         print("  OK: Socket-compatible augment picker guardrails passed.")
 
-def print_augment_index_audit_summary(ui_payload: dict[str, object]) -> None:
+
+def print_augment_index_audit_summary(ui_payload: dict[str, object], *, detail: str = "full") -> None:
     sanity = ui_payload.get("parserSanity") if isinstance(ui_payload, dict) else None
     if not isinstance(sanity, dict):
         return
@@ -208,13 +274,17 @@ def print_augment_index_audit_summary(ui_payload: dict[str, object]) -> None:
     if not isinstance(sections, list) or not sections:
         return
 
+    discovered_total = _int_value(audit.get("discoveredTotal"))
+    expected_total = _int_value(audit.get("expectedTotal"))
     print("")
     print("Augment index classification audit")
-    print(f"  Catalogue links discovered: {_int_value(audit.get('discoveredTotal'))} / {_int_value(audit.get('expectedTotal'))}")
+    if detail == "compact" and expected_total and discovered_total > expected_total:
+        print(f"  Catalogue links discovered: {discovered_total} (label total {expected_total}, +{discovered_total - expected_total} extra classified links)")
+    else:
+        print(f"  Catalogue links discovered: {discovered_total} / {expected_total}")
     category_counts = audit.get("categoryCounts")
     if isinstance(category_counts, dict) and category_counts:
-        formatted_categories = ", ".join(f"{key}={value}" for key, value in sorted(category_counts.items()))
-        print(f"  Classification buckets: {formatted_categories}")
+        print(f"  Classification buckets: {_format_counts({str(k): _int_value(v) for k, v in category_counts.items()})}")
 
     for section in sections:
         if not isinstance(section, dict):
@@ -222,22 +292,27 @@ def print_augment_index_audit_summary(ui_payload: dict[str, object]) -> None:
         name = str(section.get("section") or "unknown")
         discovered = _int_value(section.get("discovered"))
         expected_raw = section.get("expected")
-        expected_text = str(expected_raw) if expected_raw is not None else "?"
         socket_candidates = _int_value(section.get("socketCandidateCount"))
-        print(f"  {name}: {discovered} / {expected_text} discovered, socket candidates={socket_candidates}")
+        if detail == "compact":
+            print(f"  {name}: {_format_label_count(discovered, expected_raw)}, socket candidates={socket_candidates}")
+        else:
+            expected_text = str(expected_raw) if expected_raw is not None else "?"
+            print(f"  {name}: {discovered} / {expected_text} discovered, socket candidates={socket_candidates}")
 
     warnings = audit.get("validationWarnings")
     if isinstance(warnings, list) and warnings:
-        print("  Audit warnings:")
-        for warning in warnings[:8]:
-            if isinstance(warning, dict):
-                print(f"    - {_augment_warning_summary(warning)}")
-            else:
-                print(f"    - {warning}")
-        remaining = len(warnings) - 8
-        if remaining > 0:
-            print(f"    - ... {remaining} more warning(s); inspect scraper/out/poe2db_poc_ui.json or the Developer data panel")
-
+        if detail == "compact":
+            _print_warning_groups(warnings, indent="  ")
+        else:
+            print("  Audit warnings:")
+            for warning in warnings[:8]:
+                if isinstance(warning, dict):
+                    print(f"    - {_augment_warning_summary(warning)}")
+                else:
+                    print(f"    - {warning}")
+            remaining = len(warnings) - 8
+            if remaining > 0:
+                print(f"    - ... {remaining} more warning(s); inspect scraper/out/poe2db_poc_diagnostics.json")
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="PoE2DB planner data import POC")
@@ -252,6 +327,7 @@ def main() -> int:
     parser.add_argument("--write-modifier-html-cache", action="store_true", help="Persist fetched ModifiersCalc full HTML fixtures under scraper/data")
     parser.add_argument("--copy-web", action="store_true", help="Copy generated payload/report files into ../web/public/data when the web project exists")
     parser.add_argument("--slim-ui-payload", action="store_true", help="Write the smaller future runtime payload without legacy unique arrays or inline diagnostics")
+    parser.add_argument("--report-detail", choices=["compact", "full"], default="compact", help="Console summary detail level. compact keeps the CLI readable; full prints per-class rows and warning details.")
     args = parser.parse_args()
 
     project_root = Path(__file__).resolve().parent
@@ -312,11 +388,11 @@ def main() -> int:
     if args.copy_web:
         _copy_artifact(paths.health_report_json_path, paths.web_health_report_json_path, repo_root=repo_root)
         _copy_artifact(paths.diagnostics_json_path, paths.web_diagnostics_json_path, repo_root=repo_root)
-    print_payload_health_report(health_report)
-    print_augment_coverage_summary(ui_payload)
-    print_augment_catalogue_summary(ui_payload)
-    print_socket_candidate_guardrail_summary(ui_payload)
-    print_augment_index_audit_summary(ui_payload)
+    print_payload_health_report(health_report, detail=args.report_detail)
+    print_augment_coverage_summary(ui_payload, detail=args.report_detail)
+    print_augment_catalogue_summary(ui_payload, detail=args.report_detail)
+    print_socket_candidate_guardrail_summary(ui_payload, detail=args.report_detail)
+    print_augment_index_audit_summary(ui_payload, detail=args.report_detail)
 
     if args.debug:
         _write_json_artifact(paths.debug_json_path, debug_payload, repo_root=repo_root)

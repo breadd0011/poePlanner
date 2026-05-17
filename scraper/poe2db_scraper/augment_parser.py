@@ -338,13 +338,24 @@ def _catalogue_section_audits(soup: BeautifulSoup, source_url: str) -> list[dict
             category = str(entry.get("category") or "unknown")
             category_counts[category] = category_counts.get(category, 0) + 1
         warnings: list[str] = []
-        if expected is not None and len(entries) < expected:
-            warnings.append(f"Parsed {len(entries)} entries, expected {expected} from the {label} label.")
+        if expected is None:
+            count_comparison = "unknown"
+        elif len(entries) < expected:
+            count_comparison = "below_label"
+            warnings.append(f"Parsed {len(entries)} entries, expected at least {expected} from the {label} label.")
+        elif len(entries) > expected:
+            count_comparison = "above_label"
+        else:
+            count_comparison = "matches_label"
         audits.append(
             {
                 "section": label,
                 "expected": expected,
+                "expectedSource": "poe2db_section_label",
+                "expectedComparison": "at_least",
+                "countComparison": count_comparison,
                 "discovered": len(entries),
+                "extraDiscoveredOverLabel": (len(entries) - expected) if isinstance(expected, int) and len(entries) > expected else 0,
                 "categoryCounts": category_counts,
                 "socketCandidateCount": sum(1 for entry in entries if entry.get("socketCandidate")),
                 "entries": entries,
