@@ -15,6 +15,7 @@ __pycache__/
 scraper/.cache/
 scraper/out/
 scraper/data/snapshots/
+scraper/.maintenance_backup/
 
 # Web dependencies/build output
 web/node_modules/
@@ -25,3 +26,7 @@ web/tsconfig.tsbuildinfo
 # Node dependencies anywhere
 node_modules/
 **/node_modules/
+
+# Local patch/handoff files
+*.patch
+P2_DELETED_FILES.txt
