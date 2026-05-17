@@ -32,6 +32,8 @@ From inside `scraper/`:
 ```bat
 python run_poc.py --debug --write-schema
 python run_poc.py --debug --write-schema --report-detail full
+python run_poc.py --debug --write-schema --color always
+python run_poc.py --debug --write-schema --no-color
 python run_poc.py --slim-ui-payload
 python run_poc.py --build-mode strict --debug --write-schema
 python -m pytest tests
@@ -52,6 +54,7 @@ Console reporting:
 
 - The default console report is compact so successful builds are easier to scan. It prints totals, grouped warning codes, and short action/review lines.
 - Use `--report-detail full` when you need the old per-class health rows or individual socket/augment warning details.
+- Console color is `--color auto` by default: interactive PowerShell/terminal output gets colored statuses and headings, while redirected logs stay plain. Use `--color always` to force ANSI color or `--no-color` / `--color never` for CI and log files.
 - Large diagnostic detail is written to `out/poe2db_poc_diagnostics.json`; the console should stay readable and point you there for drill-downs.
 
 Follow-up validation checks:

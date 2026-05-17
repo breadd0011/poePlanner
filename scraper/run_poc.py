@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from poe2db_scraper.builder import ValidationError, build_poc_payload
+from poe2db_scraper.console import configure_color, heading, label, paint
 from poe2db_scraper.health_report import print_payload_health_report
 from poe2db_scraper.models import ui_payload_json_schema
 from poe2db_scraper.payload_contract import RuntimePayloadOptions, diagnostics_payload, runtime_payload_from_options
@@ -23,14 +24,25 @@ def _display_path(path: Path, base: Path) -> str:
 def _write_json_artifact(path: Path, payload: object, *, repo_root: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Wrote {_display_path(path, repo_root)}")
+    print(f"{paint('Wrote', 'info')} {paint(_display_path(path, repo_root), 'path')}")
 
 
 def _copy_artifact(source: Path, target: Path, *, repo_root: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source, target)
-    print(f"Copied {_display_path(target, repo_root)}")
+    print(f"{paint('Copied', 'info')} {paint(_display_path(target, repo_root), 'path')}")
 
+
+
+
+def _print_section(title: str) -> None:
+    print("")
+    print(heading(title))
+
+
+def _print_outcome(prefix: str, message: str) -> None:
+    severity = prefix.strip().lower()
+    print(f"  {label(prefix, severity)}: {message}")
 
 def _int_value(value: object, default: int = 0) -> int:
     try:
@@ -44,7 +56,7 @@ def _augment_warning_summary(warning: dict[str, object]) -> str:
     severity = str(warning.get("severity") or "warning")
     augment_name = str(warning.get("augmentName") or "").strip()
     message = str(warning.get("message") or "").strip()
-    prefix = f"{severity.upper()} {code}"
+    prefix = label(f"{severity.upper()} {code}", severity)
     if augment_name:
         prefix = f"{prefix} [{augment_name}]"
     return f"{prefix}: {message}" if message else prefix
@@ -85,9 +97,9 @@ def _format_counts(counts: dict[str, int]) -> str:
 def _print_warning_groups(warnings: object, *, indent: str = "  ", sample_limit: int = 5) -> None:
     counts = _warning_code_counts(warnings)
     if not counts:
-        print(f"{indent}Warnings: none")
+        print(f"{indent}{label('Warnings', 'ok')}: none")
         return
-    print(f"{indent}Warnings by code: {_format_counts(counts)}")
+    print(f"{indent}{label('Warnings by code', 'warning')}: {_format_counts(counts)}")
     if isinstance(warnings, list):
         for code in counts:
             names = _warning_names(warnings, code, limit=sample_limit)
@@ -124,8 +136,7 @@ def print_augment_coverage_summary(ui_payload: dict[str, object], *, detail: str
     with_requirements = _int_value(coverage.get("withRequirements"))
     complete = bool(coverage.get("complete"))
 
-    print("")
-    print("Rune augment coverage")
+    _print_section("Rune augment coverage")
     print(f"  Loaded: {loaded} / {expected}; discovered in index: {discovered} / {expected}")
     print(f"  Effects/icons: normal {with_normal}/{loaded}, bonded {with_bonded}/{loaded}, icons {with_icons}/{loaded}, requirements {with_requirements}/{loaded}")
 
@@ -155,15 +166,15 @@ def print_augment_coverage_summary(ui_payload: dict[str, object], *, detail: str
             print(f"    - ... {remaining} more warning(s); inspect scraper/out/poe2db_poc_diagnostics.json")
 
     if loaded <= 1 and expected > 1:
-        print("  ACTION: Only one rune augment is loaded. Run scraper\\scripts\\refresh_rune_augments.bat or run python scraper\\run_poc.py with --force-refresh.")
+        _print_outcome("ACTION", "Only one rune augment is loaded. Run scraper\\scripts\\refresh_rune_augments.bat or run python scraper\\run_poc.py with --force-refresh.")
     elif with_normal < loaded:
-        print("  ACTION: Rune augment coverage is incomplete because one or more normal effects are missing. Inspect poe2db_poc_diagnostics.json.")
+        _print_outcome("ACTION", "Rune augment coverage is incomplete because one or more normal effects are missing. Inspect poe2db_poc_diagnostics.json.")
     elif _int_value((coverage.get("warningCounts") or {}).get("error")) or _int_value((coverage.get("warningCounts") or {}).get("warning")):
-        print("  REVIEW: Rune data loaded, but warnings remain. Inspect poe2db_poc_diagnostics.json before exposing new socket behavior.")
+        _print_outcome("REVIEW", "Rune data loaded, but warnings remain. Inspect poe2db_poc_diagnostics.json before exposing new socket behavior.")
     elif not complete:
-        print("  REVIEW: Rune augment coverage has non-blocking gaps, usually requirements or bonded effects. Inspect diagnostics if these matter to the UI.")
+        _print_outcome("REVIEW", "Rune augment coverage has non-blocking gaps, usually requirements or bonded effects. Inspect diagnostics if these matter to the UI.")
     else:
-        print("  OK: Rune augment coverage looks complete.")
+        _print_outcome("OK", "Rune augment coverage looks complete.")
 
 
 def print_augment_catalogue_summary(ui_payload: dict[str, object], *, detail: str = "full") -> None:
@@ -178,8 +189,7 @@ def print_augment_catalogue_summary(ui_payload: dict[str, object], *, detail: st
     socket_candidates = _int_value(catalogue.get("socketCandidateCount"))
     catalogue_only = max(total - socket_candidates, 0)
 
-    print("")
-    print("Augment catalogue registry")
+    _print_section("Augment catalogue registry")
     print(f"  Entries: {total}; socket picker candidates: {socket_candidates}; catalogue-only: {catalogue_only}")
     if detail == "full":
         print(f"  Socket picker candidates: {socket_candidates}")
@@ -206,9 +216,9 @@ def print_augment_catalogue_summary(ui_payload: dict[str, object], *, detail: st
             print(f"  Detail sources: {_format_counts({str(k): _int_value(v) for k, v in detail_source_counts.items()})}")
 
     if total and socket_candidates == total:
-        print("  NOTE: All catalogue entries are currently socket candidates; verify classification before exposing new entries in the picker.")
+        _print_outcome("NOTE", "All catalogue entries are currently socket candidates; verify classification before exposing new entries in the picker.")
     else:
-        print("  OK: Non-rune catalogue entries are retained read-only and filtered out of the socket picker.")
+        _print_outcome("OK", "Non-rune catalogue entries are retained read-only and filtered out of the socket picker.")
 
 
 def print_socket_candidate_guardrail_summary(ui_payload: dict[str, object], *, detail: str = "full") -> None:
@@ -217,8 +227,7 @@ def print_socket_candidate_guardrail_summary(ui_payload: dict[str, object], *, d
     if not isinstance(audit, dict):
         return
 
-    print("")
-    print("Socket-compatible augment guardrails")
+    _print_section("Socket-compatible augment guardrails")
     print(
         "  Candidates: "
         f"{_int_value(audit.get('socketCandidateCount'))} total; "
@@ -257,9 +266,9 @@ def print_socket_candidate_guardrail_summary(ui_payload: dict[str, object], *, d
             if remaining > 0:
                 print(f"    - ... {remaining} more warning(s); inspect scraper/out/poe2db_poc_diagnostics.json")
         else:
-            print("  REVIEW: Some socket candidates lack explicit parsed equipment targets. Keep them behind diagnostics until target mapping is confirmed.")
+            _print_outcome("REVIEW", "Some socket candidates lack explicit parsed equipment targets. Keep them behind diagnostics until target mapping is confirmed.")
     else:
-        print("  OK: Socket-compatible augment picker guardrails passed.")
+        _print_outcome("OK", "Socket-compatible augment picker guardrails passed.")
 
 
 def print_augment_index_audit_summary(ui_payload: dict[str, object], *, detail: str = "full") -> None:
@@ -276,8 +285,7 @@ def print_augment_index_audit_summary(ui_payload: dict[str, object], *, detail: 
 
     discovered_total = _int_value(audit.get("discoveredTotal"))
     expected_total = _int_value(audit.get("expectedTotal"))
-    print("")
-    print("Augment index classification audit")
+    _print_section("Augment index classification audit")
     if detail == "compact" and expected_total and discovered_total > expected_total:
         print(f"  Catalogue links discovered: {discovered_total} (label total {expected_total}, +{discovered_total - expected_total} extra classified links)")
     else:
@@ -328,7 +336,10 @@ def main() -> int:
     parser.add_argument("--copy-web", action="store_true", help="Copy generated payload/report files into ../web/public/data when the web project exists")
     parser.add_argument("--slim-ui-payload", action="store_true", help="Write the smaller future runtime payload without legacy unique arrays or inline diagnostics")
     parser.add_argument("--report-detail", choices=["compact", "full"], default="compact", help="Console summary detail level. compact keeps the CLI readable; full prints per-class rows and warning details.")
+    parser.add_argument("--color", choices=["auto", "always", "never"], default="auto", help="Colorize console output. auto uses color only for interactive terminals.")
+    parser.add_argument("--no-color", action="store_true", help="Alias for --color never; useful for CI logs and redirected output.")
     args = parser.parse_args()
+    configure_color("never" if args.no_color else args.color)
 
     project_root = Path(__file__).resolve().parent
     paths = BuildPaths(project_root=project_root)
@@ -348,7 +359,7 @@ def main() -> int:
         paths.out_dir.mkdir(parents=True, exist_ok=True)
         snapshot_report_path = paths.out_dir / "poe2db_snapshot_update_report.json"
         _write_json_artifact(snapshot_report_path, report, repo_root=repo_root)
-        print(f"Updated PoE2DB snapshots for: {', '.join(report['categories'].keys())}")
+        _print_outcome("OK", f"Updated PoE2DB snapshots for: {', '.join(report['categories'].keys())}")
 
     try:
         ui_payload, debug_payload = build_poc_payload(
@@ -359,7 +370,7 @@ def main() -> int:
             write_modifier_html_cache=args.write_modifier_html_cache,
         )
     except ValidationError as exc:
-        print("Validation failed:", file=sys.stderr)
+        print(label("Validation failed:", "error"), file=sys.stderr)
         print(str(exc), file=sys.stderr)
         return 1
 
@@ -367,7 +378,7 @@ def main() -> int:
     ui_runtime_payload = runtime_payload_from_options(ui_payload, runtime_options)
     _write_json_artifact(paths.ui_json_path, ui_runtime_payload, repo_root=repo_root)
     if args.slim_ui_payload:
-        print("Wrote slim UI payload: inline diagnostics and legacy unique arrays are available in diagnostics/debug artifacts only.")
+        _print_outcome("INFO", "Wrote slim UI payload: inline diagnostics and legacy unique arrays are available in diagnostics/debug artifacts only.")
 
     if args.copy_web:
         _copy_artifact(paths.ui_json_path, paths.web_ui_json_path, repo_root=repo_root)

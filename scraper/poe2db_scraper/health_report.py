@@ -4,6 +4,8 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from typing import Any
 
+from poe2db_scraper.console import heading, label, status as color_status
+
 from .modifier_coverage_config import (
     EXCLUDED_ITEM_EDITOR_CLASSES,
     EXPERIMENTAL_MODIFIER_CLASSES,
@@ -1258,7 +1260,7 @@ def _compact_status_counts(rows: dict[str, Any], key: str = "status") -> str:
 
 def _print_compact_payload_health_report(report: dict[str, Any]) -> None:
     status = str(report.get("status") or "unknown").upper()
-    print(f"Payload health: {status}")
+    print(f"Payload health: {color_status(status)}")
 
     unique_by_class = report.get("uniqueItems", {}).get("byClass") or {}
     if unique_by_class:
@@ -1276,7 +1278,7 @@ def _print_compact_payload_health_report(report: dict[str, Any]) -> None:
         summary = weapon_unique.get("summary") or {}
         print(
             "Weapon unique production: "
-            f"{str(weapon_unique.get('status') or 'unknown').upper()}, "
+            f"{color_status(str(weapon_unique.get('status') or 'unknown').upper())}, "
             f"{_int_metric(summary.get('importedUniqueItems'))}/{_int_metric(summary.get('expectedUniqueItems'))} imported, "
             f"{_int_metric(summary.get('weaponUniqueClassesOk'))}/{_int_metric(summary.get('weaponUniqueClasses'))} classes OK"
         )
@@ -1337,7 +1339,7 @@ def _print_compact_payload_health_report(report: dict[str, Any]) -> None:
         summary = binding.get("summary") or {}
         print(
             "Item editor binding: "
-            f"{str(binding.get('status') or 'unknown').upper()}, "
+            f"{color_status(str(binding.get('status') or 'unknown').upper())}, "
             f"{_int_metric(summary.get('optionsWithEditorPools'))}/{_int_metric(summary.get('itemOptions'))} editor-bound, "
             f"{_int_metric(summary.get('optionsWithNormalExplicitPools'))}/{_int_metric(summary.get('itemOptions'))} normal-bound"
         )
@@ -1348,7 +1350,7 @@ def _print_compact_payload_health_report(report: dict[str, Any]) -> None:
         bindable = _int_metric(summary.get("bindableUniqueOptions") or summary.get("uniqueOptions"))
         print(
             "Unique editor binding: "
-            f"{str(unique_binding.get('status') or 'unknown').upper()}, "
+            f"{color_status(str(unique_binding.get('status') or 'unknown').upper())}, "
             f"{_int_metric(summary.get('optionsWithBaseItems'))}/{_int_metric(summary.get('uniqueOptions'))} base-matched, "
             f"{_int_metric(summary.get('optionsWithEditorPools'))}/{bindable} editor-bound, "
             f"{_int_metric(summary.get('optionsWithNormalExplicitPools'))}/{bindable} normal-bound"
@@ -1359,9 +1361,9 @@ def _print_compact_payload_health_report(report: dict[str, Any]) -> None:
         errors = sum(1 for warning in warnings if isinstance(warning, dict) and warning.get("severity") == "error")
         warn = sum(1 for warning in warnings if isinstance(warning, dict) and warning.get("severity") == "warning")
         info = len(warnings) - errors - warn
-        print(f"Health warnings: errors={errors}, warnings={warn}, info={info}. Use --report-detail full for individual rows.")
+        print(f"{label('Health warnings', 'warning')}: errors={errors}, warnings={warn}, info={info}. Use --report-detail full for individual rows.")
     else:
-        print("Health warnings: none")
+        print(f"{label('Health warnings', 'ok')}: none")
 
 
 def print_payload_health_report(report: dict[str, Any], *, detail: str = "full") -> None:
@@ -1370,11 +1372,11 @@ def print_payload_health_report(report: dict[str, Any], *, detail: str = "full")
         return
 
     status = str(report.get("status") or "unknown").upper()
-    print(f"Payload health: {status}")
+    print(f"Payload health: {color_status(status)}")
 
     unique_by_class = report.get("uniqueItems", {}).get("byClass") or {}
     if unique_by_class:
-        print("Unique items:")
+        print(heading("Unique items:"))
         for item_class, class_report in unique_by_class.items():
             total = int(class_report.get("total") or 0)
             icon = class_report.get("icon") or {}
@@ -1392,7 +1394,7 @@ def print_payload_health_report(report: dict[str, Any], *, detail: str = "full")
         summary = weapon_unique.get("summary") or {}
         print(
             "Weapon unique production: "
-            f"{str(weapon_unique.get('status') or 'unknown').upper()}, "
+            f"{color_status(str(weapon_unique.get('status') or 'unknown').upper())}, "
             f"{int(summary.get('importedUniqueItems') or 0)}/{int(summary.get('expectedUniqueItems') or 0)} imported, "
             f"{int(summary.get('weaponUniqueClassesOk') or 0)}/{int(summary.get('weaponUniqueClasses') or 0)} classes OK"
         )
@@ -1412,7 +1414,7 @@ def print_payload_health_report(report: dict[str, Any], *, detail: str = "full")
 
     base_by_class = report.get("baseItems", {}).get("byClass") or {}
     if base_by_class:
-        print("Base items:")
+        print(heading("Base items:"))
         for item_class, class_report in base_by_class.items():
             total = int(class_report.get("total") or 0)
             icon = class_report.get("icon") or {}
@@ -1435,7 +1437,7 @@ def print_payload_health_report(report: dict[str, Any], *, detail: str = "full")
 
     coverage_by_class = (report.get("modifierCoverage") or {}).get("byClass") or {}
     if coverage_by_class:
-        print("Modifier coverage:")
+        print(heading("Modifier coverage:"))
         priority = {"required": 0, "experimental": 1, "unsupported": 2}
         sorted_entries = sorted(
             coverage_by_class.items(),
@@ -1492,7 +1494,7 @@ def print_payload_health_report(report: dict[str, Any], *, detail: str = "full")
         summary = binding.get("summary") or {}
         print(
             "Item editor binding: "
-            f"{str(binding.get('status') or 'unknown').upper()}, "
+            f"{color_status(str(binding.get('status') or 'unknown').upper())}, "
             f"{int(summary.get('optionsWithEditorPools') or 0)}/{int(summary.get('itemOptions') or 0)} options with editor pools, "
             f"{int(summary.get('optionsWithNormalExplicitPools') or 0)}/{int(summary.get('itemOptions') or 0)} options with normal pools"
         )
@@ -1519,7 +1521,7 @@ def print_payload_health_report(report: dict[str, Any], *, detail: str = "full")
         bindable = int(summary.get("bindableUniqueOptions") or summary.get("uniqueOptions") or 0)
         print(
             "Unique editor binding: "
-            f"{str(unique_binding.get('status') or 'unknown').upper()}, "
+            f"{color_status(str(unique_binding.get('status') or 'unknown').upper())}, "
             f"{int(summary.get('optionsWithBaseItems') or 0)}/{int(summary.get('uniqueOptions') or 0)} base-matched, "
             f"{int(summary.get('optionsWithEditorPools') or 0)}/{bindable} bindable editor-bound, "
             f"{int(summary.get('optionsWithNormalExplicitPools') or 0)}/{bindable} bindable normal-bound"
@@ -1544,8 +1546,9 @@ def print_payload_health_report(report: dict[str, Any], *, detail: str = "full")
 
     warnings = report.get("warnings") or []
     if warnings:
-        print("Warnings:")
+        print(heading("Warnings:"))
         for warning in warnings[:20]:
-            print(f"- [{warning.get('severity', 'warning')}] {warning.get('code')}: {warning.get('message')}")
+            severity = str(warning.get('severity', 'warning'))
+            print(f"- [{label(severity, severity)}] {warning.get('code')}: {warning.get('message')}")
         if len(warnings) > 20:
             print(f"- ... {len(warnings) - 20} more warnings")

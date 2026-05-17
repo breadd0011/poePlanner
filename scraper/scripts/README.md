@@ -12,7 +12,7 @@ scraper\scripts\generate_payload.bat
 scraper\scripts\show_health_report.bat
 ```
 
-This now prints a compact socket-compatible augment summary after the payload is written. Use `python scraper\run_poc.py --report-detail full --debug --write-schema` when you need the old detailed per-class rows and individual warning lines. If the UI shows stale or incomplete augment coverage, use the force-refresh helper below.
+This now prints a compact, colorized socket-compatible augment summary after the payload is written. Use `python scraper\run_poc.py --report-detail full --debug --write-schema` when you need the old detailed per-class rows and individual warning lines. Color is automatic for interactive terminals; use `--color always` to force it or `--no-color` for CI/log files. If the UI shows stale or incomplete augment coverage, use the force-refresh helper below.
 
 To preview the smaller future frontend contract, run:
 
