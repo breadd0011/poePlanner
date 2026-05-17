@@ -1,0 +1,27 @@
+# Large local archives
+image.rar
+latestVer.zip
+*.zip
+*.rar
+
+# Python cache
+.pytest_cache/
+**/.pytest_cache/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Scraper generated/cache output
+scraper/.cache/
+scraper/out/
+scraper/data/snapshots/
+
+# Web dependencies/build output
+web/node_modules/
+web/dist/
+web/.vite/
+web/tsconfig.tsbuildinfo
+
+# Node dependencies anywhere
+node_modules/
+**/node_modules/

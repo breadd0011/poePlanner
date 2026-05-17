@@ -1,0 +1,340 @@
+.planner-editor-shell.item-editor-shell {
+  max-width: 1120px;
+  background: #121212;
+  border-color: #050505;
+  box-shadow: 0 0 0 1px #000,
+    0 20px 70px rgba(0, 0, 0, 0.45);
+}
+
+.item-editor-shell .mock-dialog-header {
+  background: #181818;
+  border-bottom-color: #2b2b2b;
+  padding: 0.45rem 0.65rem;
+}
+
+.item-editor-shell .mock-tabs {
+  gap: 0.2rem;
+  font-size: 1rem;
+}
+
+.item-editor-shell .mock-tabs span {
+  padding: 0.35rem 0.85rem;
+  color: #9b9b9b;
+}
+
+.item-editor-shell .mock-tabs .mock-tab-active {
+  color: #ffffff;
+  border-bottom: 2px solid #c29b47;
+}
+
+.item-editor-shell .subtype-tabs {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  padding: 0.55rem 0.65rem 0;
+  gap: 0.35rem;
+}
+
+.item-editor-shell .subtype-tab {
+  border-radius: 3px;
+  border-color: #303030;
+  background: #1b1b1b;
+  color: #bdbdbd;
+  padding: 0.42rem 0.55rem;
+}
+
+.item-editor-shell .editor-pill {
+  border-radius: 3px;
+  border-color: #303030;
+  background: #1b1b1b;
+  color: #bdbdbd;
+  padding: 0.42rem 0.55rem;
+}
+
+.item-editor-shell .subtype-tab--active {
+  border-color: #b99654;
+  background: #2a2114;
+  color: #fff4c4;
+}
+
+.item-editor-shell .editor-pill--active {
+  border-color: #b99654;
+  background: #2a2114;
+  color: #fff4c4;
+}
+
+.item-editor-shell .item-editor-layout {
+  grid-template-columns: minmax(420px, 0.95fr) minmax(420px, 1.05fr);
+  gap: 0.75rem;
+  padding: 0.65rem;
+}
+
+.item-editor-shell .item-editor-form-column {
+  gap: 0.55rem;
+}
+
+.item-editor-shell .item-editor-preview-column {
+  gap: 0.55rem;
+  position: static;
+}
+
+.item-header-panel.item-editor-header-panel {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 0.85rem;
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #181818;
+  padding: 0.65rem 0.8rem;
+}
+
+.item-editor-header-panel .item-icon-placeholder {
+  width: 76px;
+  height: 76px;
+  border-radius: 2px;
+  border-color: #3a3a3a;
+  background: radial-gradient(circle at top, #465060, #111 72%);
+  color: #c9d8ff;
+}
+
+.item-editor-header-panel .socket-mini-grid i.filled {
+  border-color: #7fb7ff;
+  background: radial-gradient(circle, #8abaff 0 35%, #142033 36% 100%);
+}
+
+.item-editor-shell .socket-dot.filled {
+  border-color: #7fb7ff;
+  background: radial-gradient(circle, #8abaff 0 35%, #142033 36% 100%);
+}
+
+.item-editor-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.42rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.item-editor-options .editor-field {
+  display: grid;
+  grid-template-columns: minmax(104px, 0.34fr) minmax(220px, 1fr);
+  align-items: center;
+  gap: 0.72rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.item-editor-options .editor-checkbox {
+  display: grid;
+  grid-template-columns: minmax(104px, 0.34fr) minmax(220px, 1fr);
+  align-items: center;
+  gap: 0.72rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.item-editor-options .editor-field > span {
+  color: #aaa;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.item-editor-options .editor-checkbox > span {
+  color: #aaa;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.item-editor-options .editor-field input {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  border-radius: 2px;
+  border: 1px solid #333;
+  background: #202020;
+  color: #eeeeee;
+  padding: 0.42rem 0.55rem;
+}
+
+.item-editor-options .editor-field select {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  border-radius: 2px;
+  border: 1px solid #333;
+  background: #202020;
+  color: #eeeeee;
+  padding: 0.42rem 0.55rem;
+}
+
+.item-editor-options .editor-checkbox input {
+  justify-self: start;
+}
+
+.item-editor-shell .item-title-row {
+  margin-bottom: 0.3rem;
+}
+
+.item-editor-shell .item-properties-panel {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #181818;
+}
+
+.item-editor-shell .editor-help-panel {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #181818;
+}
+
+.item-editor-shell .soft-warning-panel {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #181818;
+}
+
+.item-editor-shell .planner-stat-category {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #181818;
+}
+
+.item-editor-sections {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.item-editor-shell .planner-stat-line {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #111;
+  color: #b4b4ff;
+}
+
+.item-editor-shell .planner-stat-line--empty {
+  color: #777;
+}
+
+.item-editor-shell .planner-stat-line--add:has(.planner-stat-add-button:hover),
+.item-editor-shell .planner-stat-line--add:has(.planner-stat-add-button:focus-visible) {
+  border-color: #b99654;
+  background: #211a10;
+  color: #fff4c4;
+}
+
+.item-editor-shell .modifier-picker {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #171717;
+}
+
+.item-editor-shell .modifier-picker-list {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #111;
+}
+
+.item-editor-shell .modifier-picker-sources {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #111;
+}
+
+.item-editor-shell .picker-mod-row {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #111;
+}
+
+.item-editor-shell .modifier-picker-header button {
+  border-radius: 0;
+  border-color: #2b2b2b;
+  background: #111;
+}
+
+.item-editor-shell .picker-mod-row:hover {
+  border-color: #b99654;
+  background: #211a10;
+}
+
+.item-editor-shell .picker-mod-row:focus {
+  border-color: #b99654;
+  background: #211a10;
+}
+
+.item-editor-shell .inline-value-editor {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.45rem;
+}
+
+.item-editor-shell .inline-value-editor label {
+  display: flex;
+  align-items: center;
+  color: #9d9387;
+  font-size: 0.78rem;
+}
+
+.item-editor-shell .inline-value-editor input {
+  width: 92px;
+  border: 1px solid #3a3128;
+  background: #0b0b0b;
+  color: #f1dca5;
+  padding: 0.3rem 0.32rem;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.item-editor-shell .poe2-enchantMod p {
+  overflow-wrap: anywhere;
+}
+
+.item-editor-shell .poe2-explicitMod p {
+  overflow-wrap: anywhere;
+}
+
+.item-editor-shell .poe2-socketMod p {
+  overflow-wrap: anywhere;
+}
+
+.item-icon-image {
+  display: block;
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background: radial-gradient(circle at top, #334155, #111827 72%);
+}
+
+.item-editor-header-panel .item-icon-image {
+  width: 76px;
+  height: 76px;
+  border-radius: 2px;
+  border-color: #3a3a3a;
+  background: radial-gradient(circle at top, #465060, #111 72%);
+}
+
+@media (max-width: 1080px) {
+  .item-editor-shell .item-editor-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .item-editor-shell .subtype-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .item-header-panel.item-editor-header-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .item-editor-options .editor-field {
+    grid-template-columns: 1fr;
+  }
+
+  .item-editor-options .editor-checkbox {
+    grid-template-columns: 1fr;
+  }
+}

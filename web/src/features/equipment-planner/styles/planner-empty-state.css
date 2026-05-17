@@ -1,0 +1,12 @@
+.planner-empty-state {
+  border: 1px dashed #3b3328;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.22);
+  padding: 1rem;
+  color: #d6c4a5;
+}
+
+.planner-empty-state p {
+  margin: 0.35rem 0 0;
+  color: #8f8a82;
+}

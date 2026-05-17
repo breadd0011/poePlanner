@@ -1,0 +1,483 @@
+.equipment-board-art--charms {
+  left: 34.6%;
+  top: 77.2%;
+  width: 31%;
+  height: 13.5%;
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelcharmslots3x1.webp");
+}
+
+.equipment-board-art--life-left {
+  left: 20.7%;
+  top: 75.2%;
+  width: 13%;
+  height: 21%;
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelpotionlifeleft.webp");
+}
+
+.equipment-board-art--mana-right {
+  right: 20.7%;
+  top: 75.2%;
+  width: 13%;
+  height: 21%;
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelpotionmanaright.webp");
+}
+
+.equipment-board-ghost--left {
+  left: 21%;
+}
+
+.equipment-board-ghost--right {
+  right: 21%;
+}
+
+.equipment-slot-glyph {
+  color: #4a4033;
+  font-family: Georgia, serif;
+  font-size: clamp(1.4rem, 4vw, 3.4rem);
+  line-height: 1;
+}
+
+.equipment-slot-box--weapon .equipment-slot-glyph {
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+}
+
+.equipment-slot-box--life .equipment-slot-glyph {
+  color: rgba(127, 29, 29, 0.75);
+}
+
+.equipment-slot-box--mana .equipment-slot-glyph {
+  color: rgba(30, 64, 175, 0.75);
+}
+
+.weapon-set-tabs i:first-child {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelweaponswap1active.webp");
+}
+
+.weapon-set-tabs i + i {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelweaponswap2inactive.webp");
+  color: #8a7d68;
+  opacity: 0.82;
+}
+
+.equipment-board-shell {
+  width: 100%;
+  border: 1px solid #1f1a14;
+  border-radius: 10px;
+  background: #050505;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.75),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  padding: 0;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.equipment-board {
+  position: relative;
+  overflow: visible;
+  border: 1px solid #101012;
+  aspect-ratio: 924 / 689;
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelupperbackground.webp"),
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(45, 44, 45, 0.9) 0%,
+      rgba(10, 10, 12, 0.98) 58%,
+      #050505 100%
+    );
+  background-position: center top,
+    center;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, 100% 100%;
+}
+
+.equipment-board::before {
+  display: none;
+}
+
+.equipment-board-art {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.96;
+  display: none;
+}
+
+.equipment-board-ghost {
+  position: absolute;
+  top: 7%;
+  width: 23%;
+  height: 43%;
+  border-radius: 999px 999px 24px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  opacity: 0.35;
+  filter: blur(0.2px);
+  background: radial-gradient(
+    ellipse at 50% 20%,
+    rgba(255, 255, 255, 0.06),
+    transparent 55%
+  );
+  display: none;
+}
+
+.equipment-slot-box {
+  position: absolute;
+  left: var(--equipment-slot-left);
+  top: var(--equipment-slot-top);
+  width: var(--equipment-slot-width);
+  height: var(--equipment-slot-height);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  color: #a8987a;
+  cursor: pointer;
+  transition: background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  overflow: visible;
+  transform: none;
+  outline: none;
+}
+
+.equipment-slot-box:hover {
+  z-index: 80;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+
+.equipment-slot-box:focus-visible {
+  z-index: 80;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+
+.equipment-slot-box:hover .equipment-slot-inner {
+  filter: brightness(1.1) drop-shadow(0 0 10px rgba(227, 184, 100, 0.22));
+}
+
+.equipment-slot-box:focus-visible .equipment-slot-inner {
+  filter: brightness(1.1) drop-shadow(0 0 10px rgba(227, 184, 100, 0.22));
+}
+
+.equipment-slot-inner {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  min-height: 0;
+  position: absolute;
+  overflow: visible;
+  border: 0;
+  background-color: transparent;
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorysquare.webp");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  box-shadow: none;
+  inset: 0;
+  transition: filter 160ms ease;
+}
+
+.equipment-slot-inner::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(255, 235, 200, 0.04),
+    transparent 40%
+  );
+  display: none;
+}
+
+.equipment-slot-box--weapon::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 48%;
+  height: 18px;
+  transform: translateX(-50%);
+  background: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelweapondecor.webp")
+    center / contain no-repeat;
+  opacity: 0.85;
+  display: none;
+}
+
+.equipment-slot-box--belt .equipment-slot-label {
+  font-size: clamp(0.5rem, 1.25vw, 1.05rem);
+}
+
+.equipment-slot-box--amulet .equipment-slot-label {
+  font-size: clamp(0.5rem, 1.25vw, 1.05rem);
+}
+
+.equipment-slot-box--ring1 .equipment-slot-label {
+  font-size: clamp(0.5rem, 1.25vw, 1.05rem);
+}
+
+.equipment-slot-box--ring2 .equipment-slot-label {
+  font-size: clamp(0.5rem, 1.25vw, 1.05rem);
+}
+
+.equipment-slot-box--lifeFlask .equipment-slot-label {
+  bottom: 3%;
+  font-size: clamp(0.46rem, 1.25vw, 1rem);
+}
+
+.equipment-slot-box--manaFlask .equipment-slot-label {
+  bottom: 3%;
+  font-size: clamp(0.46rem, 1.25vw, 1rem);
+}
+
+.equipment-slot-label {
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  min-height: 0;
+  color: #f5f1e6;
+  font-size: clamp(0.52rem, 1.65vw, 1.45rem);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  line-height: 0.98;
+  text-shadow: 0 2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 -2px 0 #000,
+    0 0 7px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4.5%;
+  z-index: 4;
+  padding-inline: 0.25rem;
+  text-align: center;
+  white-space: pre-line;
+  display: none !important;
+}
+
+.charms-label {
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  font-size: clamp(0.42rem, 1.1vw, 0.68rem);
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+  pointer-events: none;
+  position: absolute;
+  left: 36%;
+  width: 28%;
+  color: #f5f1e6;
+  font-weight: 900;
+  text-shadow: 0 2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 -2px 0 #000;
+  top: 94%;
+  display: none !important;
+}
+
+.equipment-slot-box--weapon1 .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelweaponslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--weapon2 .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelweaponslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--helmet .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelhelmetslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--amulet .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelamuletslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--body .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelbodyarmourslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--gloves .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelglovesslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--belt .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelbeltslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--boots .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelbootsslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--ring1 .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelringslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--ring2 .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelringslot.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--lifeFlask .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelpotionlifeleft.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--manaFlask .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelpotionmanaright.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--charm1 .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelcharmblocker.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--charm2 .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelcharmblocker.webp");
+  image-rendering: auto;
+}
+
+.equipment-slot-box--charm3 .equipment-slot-inner {
+  background-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/inventorypanel/4k/inventorypanelcharmblocker.webp");
+  image-rendering: auto;
+}
+
+.weapon-set-tabs {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  transform: translateX(-50%);
+  z-index: 5;
+  top: -4.1%;
+  gap: 2px;
+}
+
+.weapon-set-tabs i {
+  display: grid;
+  place-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  font-size: 0.68rem;
+  font-style: normal;
+  line-height: 1;
+  text-shadow: 0 2px 2px #000;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  color: transparent;
+  box-shadow: none;
+  min-width: 19px;
+  min-height: 15px;
+}
+
+.equipped-preview {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 0.25rem;
+  text-align: center;
+  z-index: 3;
+  text-shadow: 0 2px 3px #000;
+  gap: 0.15rem;
+}
+
+.equipped-preview strong {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(0.54rem, 1vw, 0.72rem);
+  display: none;
+}
+
+.equipped-preview > span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #7b7280;
+  font-size: clamp(0.45rem, 0.85vw, 0.62rem);
+  display: none;
+}
+
+.equipped-preview .socketed-item-artwork--equipped {
+  width: 92%;
+  height: 92%;
+  min-width: 0;
+  min-height: 0;
+  container-type: inline-size;
+  transform: scale(0.94);
+  transform-origin: center;
+}
+
+.equipped-preview .socketed-item-artwork--equipped .item-icon-image,
+.equipped-preview .socketed-item-artwork--equipped .item-icon-placeholder {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+  object-fit: contain;
+}
+
+
+.equipment-slot-tooltip {
+  position: absolute;
+  top: 50%;
+  z-index: 100;
+  width: min(340px, 38vw);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.equipment-slot-tooltip--right {
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+
+.equipment-slot-tooltip--left {
+  right: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+
+.equipment-slot-tooltip .planner-item-card {
+  width: 100%;
+  margin: 0;
+}
+
+.equipment-slot-box:hover .equipment-slot-tooltip,
+.equipment-slot-box:focus-visible .equipment-slot-tooltip {
+  opacity: 1;
+  visibility: visible;
+}

@@ -1,0 +1,312 @@
+.item-tooltip-preview.poe2-itemPopup {
+  width: 100%;
+  min-width: 263px;
+  max-width: 560px;
+  justify-self: center;
+  margin: 0 auto 0.65rem;
+  border: 1px solid #050505;
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.88);
+  box-shadow: none;
+  color: #7f7f7f;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 10px;
+  line-height: 1.2;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  text-align: center;
+}
+
+.item-tooltip-preview .poe2-content {
+  padding: 0.4em 0 0.5em;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.item-tooltip-preview .poe2-lc {
+  display: inline-block;
+  padding: 0 0.425em;
+  font-size: 1.43em;
+}
+
+.item-tooltip-preview .poe2-itemHeader {
+  border: 0;
+  box-sizing: border-box;
+  display: block;
+  font-size: 19px;
+  height: 34px;
+  line-height: 1em;
+  min-height: 34px;
+  padding: 0;
+  position: relative;
+  text-align: center;
+}
+
+.item-tooltip-preview .poe2-itemHeader.singleLine {
+  height: 34px;
+  min-height: 34px;
+  background: var(--poe2-header-left) top left no-repeat,
+    var(--poe2-header-right) top right no-repeat,
+    var(--poe2-header-middle) top center repeat-x;
+  background-size: contain;
+}
+
+.item-tooltip-preview .poe2-itemHeader.doubleLine {
+  height: 54px;
+  min-height: 54px;
+  background: var(--poe2-header-double-left, var(--poe2-header-left)) top left no-repeat,
+    var(--poe2-header-double-right, var(--poe2-header-right)) top right
+      no-repeat,
+    var(--poe2-header-double-middle, var(--poe2-header-middle)) top center
+      repeat-x;
+  background-size: contain;
+}
+
+.item-tooltip-preview .poe2-itemName {
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1em;
+  margin: 0;
+  position: relative;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.item-tooltip-preview .poe2-itemHeader .poe2-lc {
+  display: inline-block;
+  font-size: 19px;
+  line-height: 1em;
+  padding: 7.23428px 30px;
+}
+
+.item-tooltip-preview .poe2-itemHeader.doubleLine .poe2-itemName .poe2-lc {
+  padding: 5.18323px 45px 2.59162px;
+}
+
+.item-tooltip-preview .poe2-itemHeader.doubleLine .poe2-typeLine .poe2-lc {
+  padding: 2.59162px 45px 5.18323px;
+}
+
+.item-tooltip-preview.poe2-normalPopup {
+  --poe2-header-left: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderwhiteleft.webp");
+  --poe2-header-middle: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderwhitemiddle.webp");
+  --poe2-header-right: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderwhiteright.webp");
+  --poe2-header-double-left: var(--poe2-header-left);
+  --poe2-header-double-middle: var(--poe2-header-middle);
+  --poe2-header-double-right: var(--poe2-header-right);
+  --poe2-separator-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsseparatorwhite.webp");
+}
+
+.item-tooltip-preview.poe2-magicPopup {
+  --poe2-header-left: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheadermagicleft.webp");
+  --poe2-header-middle: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheadermagicmiddle.webp");
+  --poe2-header-right: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheadermagicright.webp");
+  --poe2-header-double-left: var(--poe2-header-left);
+  --poe2-header-double-middle: var(--poe2-header-middle);
+  --poe2-header-double-right: var(--poe2-header-right);
+  --poe2-separator-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsseparatormagic.webp");
+}
+
+.item-tooltip-preview.poe2-rarePopup {
+  --poe2-header-left: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderraresinglelineleft.webp");
+  --poe2-header-middle: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderraresinglelinemiddle.webp");
+  --poe2-header-right: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderraresinglelineright.webp");
+  --poe2-header-double-left: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderrareleft.webp");
+  --poe2-header-double-middle: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderraremiddle.webp");
+  --poe2-header-double-right: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderrareright.webp");
+  --poe2-separator-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsseparatorrare.webp");
+}
+
+.item-tooltip-preview.poe2-uniquePopup {
+  --poe2-header-left: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderuniquesinglelineleft.webp");
+  --poe2-header-middle: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderuniquesinglelinemiddle.webp");
+  --poe2-header-right: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderuniquesinglelineright.webp");
+  --poe2-header-double-left: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderuniqueleft.webp");
+  --poe2-header-double-middle: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderuniquemiddle.webp");
+  --poe2-header-double-right: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsheaderuniqueright.webp");
+  --poe2-separator-image: url("/image/Art/textures/interface/2d/2dart/uiimages/ingame/4k/itemsseparatorunique.webp");
+}
+
+.item-tooltip-preview.poe2-normalPopup .poe2-itemName {
+  color: #c8c8c8;
+}
+
+.item-tooltip-preview.poe2-magicPopup .poe2-itemName {
+  color: #8888ff;
+}
+
+.item-tooltip-preview.poe2-rarePopup .poe2-itemName {
+  color: #ffff77;
+}
+
+.item-tooltip-preview.poe2-uniquePopup .poe2-itemName {
+  color: #af6025;
+}
+
+.item-tooltip-preview .poe2-textUnique {
+  color: #af6025;
+}
+
+.item-tooltip-preview .poe2-displayProperty {
+  margin: 0.1em 0;
+}
+
+.item-tooltip-preview .poe2-separator {
+  background-image: var(--poe2-separator-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  height: 0.79em;
+  margin: 1px 0;
+  width: 100%;
+}
+
+.item-tooltip-preview .poe2-colourDefault {
+  color: #ffffff;
+}
+
+.item-tooltip-preview .poe2-colourAugmented {
+  color: #8888ff;
+}
+
+.item-tooltip-preview .poe2-explicitMod {
+  margin: 0.1em 0;
+  color: #8888ff;
+}
+
+.item-tooltip-preview .poe2-implicitMod {
+  margin: 0.1em 0;
+  color: #8888ff;
+}
+
+.item-tooltip-preview .poe2-enchantMod {
+  margin: 0.1em 0;
+  color: #b4b4ff;
+}
+
+.item-tooltip-preview .poe2-socketMod {
+  margin: 0.1em 0;
+  color: #b4b4ff;
+}
+
+.item-tooltip-preview .poe2-unmet {
+  margin: 0.1em 0;
+  color: #d20000;
+}
+
+.item-tooltip-preview .poe2-cosmeticMod {
+  margin: 0.1em 0;
+  color: #aa9e82;
+}
+
+.item-tooltip-preview .poe2-requirements {
+  margin: 0.1em 0;
+  color: #d6d6d6;
+}
+
+.item-tooltip-preview .poe2-flavourText {
+  color: #af6025;
+  margin: 0.1em 0;
+  font-style: italic;
+}
+
+.item-tooltip-preview .poe2-lockNotice {
+  padding: 0.35rem 0.8rem 0.55rem;
+  color: #777;
+  font-size: 0.76rem;
+}
+
+.item-tooltip-preview .poe2-itemboximage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.25em;
+  padding: 0.55em 0 0.35em;
+}
+
+.item-tooltip-preview .item-tooltip-preview__artwork {
+  width: min(62%, 270px);
+  max-width: 270px;
+  --item-socket-size: clamp(22px, 13cqw, 42px);
+  --item-socket-gap: clamp(2px, 1.4cqw, 5px);
+}
+
+.item-tooltip-preview .item-tooltip-preview__artwork .item-icon-image {
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: contain;
+}
+
+.item-tooltip-preview .item-tooltip-preview__artwork .item-icon-placeholder {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  font-size: 2.2em;
+}
+
+.augment-tooltip-preview.item-tooltip-preview {
+  max-width: 360px;
+}
+
+.augment-tooltip-preview .poe2-bondedMod {
+  margin: 0.1em 0;
+  color: #b4b4ff;
+}
+
+.augment-tooltip-preview .poe2-defaultText {
+  color: #c6bfa9;
+  font-style: italic;
+  margin: 0.1em 0;
+}
+
+.augment-tooltip-preview .augment-tooltip-preview__icon {
+  display: block;
+  max-width: 84px;
+  max-height: 84px;
+  object-fit: contain;
+}
+
+.tooltip-box--poe-preview {
+  display: grid;
+  justify-items: center;
+}
+
+.tooltip-box--raw-sections {
+  padding: 0.75rem 0 0;
+}
+
+.augment-tooltip-preview--compact.item-tooltip-preview {
+  width: min(100%, 330px);
+  margin-bottom: 0;
+  transform-origin: top center;
+}
+
+.augment-tooltip-preview--compact .poe2-content {
+  padding-bottom: 0.4em;
+}
+
+.augment-tooltip-preview--compact .poe2-itemboximage {
+  padding-top: 0.35em;
+}
+
+.augment-tooltip-preview--compact .augment-tooltip-preview__icon {
+  max-width: 64px;
+  max-height: 64px;
+}
+.floating-augment-tooltip {
+  position: fixed;
+  z-index: 1200;
+  width: min(360px, calc(100vw - 1.5rem));
+  max-height: calc(100vh - 1.5rem);
+  overflow: auto;
+  pointer-events: none;
+}
+
+.floating-augment-tooltip .item-tooltip-preview {
+  margin: 0;
+}
+

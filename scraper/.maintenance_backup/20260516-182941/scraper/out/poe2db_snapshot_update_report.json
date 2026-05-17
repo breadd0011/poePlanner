@@ -1,0 +1,208 @@
+{
+  "snapshotDate": "2026-05-10",
+  "categories": {
+    "Life Flasks": {
+      "classPage": {
+        "sourceUrl": "https://poe2db.tw/us/Life_Flasks",
+        "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\classes\\life_flasks.html",
+        "cachePath": ".cache\\poe2db\\813c0dda49c3e2f6340f860e47160b80944b3ff57f7bc8c51634fc5903764656.html",
+        "fromCache": false,
+        "statusCode": 200,
+        "warnings": []
+      },
+      "subtypes": [],
+      "uniques": [
+        {
+          "sourceUrl": "https://poe2db.tw/us/Blood_of_the_Warrior",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_life flasks\\blood_of_the_warrior.html",
+          "cachePath": ".cache\\poe2db\\3b5e3e5556db201e3d91f236ba51e1ce71582116773ae0bfc2ca069e9588d3fe.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Olroths_Resolve",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_life flasks\\olroths_resolve.html",
+          "cachePath": ".cache\\poe2db\\a0d769f316e75e6d1c3df104bf4b4c27da1a7576a0cda046f497cb42c83f74a0.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        }
+      ],
+      "classModifiers": {
+        "supportState": "required",
+        "modifiersCalcFullPath": "scraper\\data\\modifiers_calc_full\\life_flasks.html",
+        "parsedEditorPoolCount": 11,
+        "parsedModifierCount": 12,
+        "basePrefixPoolPresent": true,
+        "baseSuffixPoolPresent": true,
+        "rawSources": [
+          "modsview_json"
+        ]
+      },
+      "discoveredUniqueUrls": 2
+    },
+    "Mana Flasks": {
+      "classPage": {
+        "sourceUrl": "https://poe2db.tw/us/Mana_Flasks",
+        "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\classes\\mana_flasks.html",
+        "cachePath": ".cache\\poe2db\\abd7daa9902833cac7c41eb1327469bcb30e30a37d02a9d15bb1fea44088ea71.html",
+        "fromCache": false,
+        "statusCode": 200,
+        "warnings": []
+      },
+      "subtypes": [],
+      "uniques": [
+        {
+          "sourceUrl": "https://poe2db.tw/us/Laviangas_Spirits",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_mana flasks\\laviangas_spirits.html",
+          "cachePath": ".cache\\poe2db\\ef0c5b312c43053e86ccb3fb187086d2e1dbbc03468a3e4ba9b847d3d066c472.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Melting_Maelstrom",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_mana flasks\\melting_maelstrom.html",
+          "cachePath": ".cache\\poe2db\\781c265df90dd865811a83d0e26be94b360821c8e76b102a7d5ee10a84a63392.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        }
+      ],
+      "classModifiers": {
+        "supportState": "required",
+        "modifiersCalcFullPath": "scraper\\data\\modifiers_calc_full\\mana_flasks.html",
+        "parsedEditorPoolCount": 11,
+        "parsedModifierCount": 12,
+        "basePrefixPoolPresent": true,
+        "baseSuffixPoolPresent": true,
+        "rawSources": [
+          "modsview_json"
+        ]
+      },
+      "discoveredUniqueUrls": 2
+    },
+    "Charms": {
+      "classPage": {
+        "sourceUrl": "https://poe2db.tw/us/Charms",
+        "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\classes\\charms.html",
+        "cachePath": ".cache\\poe2db\\1e9e5a145e1b75478928ab4db3b8511f6a12c7dff0c3110f795f38d1c8de30a3.html",
+        "fromCache": false,
+        "statusCode": 200,
+        "warnings": []
+      },
+      "subtypes": [],
+      "uniques": [
+        {
+          "sourceUrl": "https://poe2db.tw/us/Nascent_Hope",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\nascent_hope.html",
+          "cachePath": ".cache\\poe2db\\6d1e17a6808bea066a5a95396320e96082226842fca0da42a76e4fa6e8c9459f.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Sanguis_Heroum",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\sanguis_heroum.html",
+          "cachePath": ".cache\\poe2db\\882c226b4cb10708c318d993094bd4fd3549419143bd2229944cea8de6d27929.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Arakaalis_Gift",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\arakaalis_gift.html",
+          "cachePath": ".cache\\poe2db\\e170690bce5eac6312a4b3efe1004657bc95020fead1ab6e2d3259964bbb0eb9.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Beiras_Anguish",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\beiras_anguish.html",
+          "cachePath": ".cache\\poe2db\\bdd619a3a2549a6fe49720409ad760a345d2e66db0d5cf5f12798c7ff4f30fb9.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/The_Black_Cat",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\the_black_cat.html",
+          "cachePath": ".cache\\poe2db\\a5c5deb98a72cbd2e9d0ed97d2b282d60a43ab8f8706205ebb82d27a064b85e5.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/For_Utopia",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\for_utopia.html",
+          "cachePath": ".cache\\poe2db\\fe7cf733f5835292a3e3d7a18c2de1d96be28975e0502972e7bba8d2b7443671.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/The_Fall_of_the_Axe",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\the_fall_of_the_axe.html",
+          "cachePath": ".cache\\poe2db\\92cb18b18fef05e031a55f43b0587d82bdd3af690d046afa92e40c0c6452c3fe.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Ngamahus_Chosen",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\ngamahus_chosen.html",
+          "cachePath": ".cache\\poe2db\\fdd4b52ea6cd24bc793dfcdd908fc0d25a18d7e23f7d2c8a539b61602bf16cec.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Breath_of_the_Mountains",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\breath_of_the_mountains.html",
+          "cachePath": ".cache\\poe2db\\25a53bf8fd60e311023e290e88baba6c3dcedbf3b68977126dc328622794755f.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Valakos_Roar",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\valakos_roar.html",
+          "cachePath": ".cache\\poe2db\\8ee697593791f89f3ab3a8f1321ced560c87280a1d88af46f187c86c2d4fcaa2.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Forsaken_Bangle",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\forsaken_bangle.html",
+          "cachePath": ".cache\\poe2db\\6761a4ec8ae5a740973953b34565a39f20739cf32d4387d5186874c58411f1fd.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        },
+        {
+          "sourceUrl": "https://poe2db.tw/us/Rite_of_Passage",
+          "snapshotPath": "scraper\\data\\snapshots\\poe2db\\2026-05-10\\unique_charms\\rite_of_passage.html",
+          "cachePath": ".cache\\poe2db\\7881452eb8c364d822a4af1dd71feb8bce8cc1f5711dd66cb1c8576dcf6f6450.html",
+          "fromCache": false,
+          "statusCode": 200,
+          "warnings": []
+        }
+      ],
+      "classModifiers": {
+        "supportState": "required",
+        "modifiersCalcFullPath": "scraper\\data\\modifiers_calc_full\\charms.html",
+        "parsedEditorPoolCount": 11,
+        "parsedModifierCount": 9,
+        "basePrefixPoolPresent": true,
+        "baseSuffixPoolPresent": true,
+        "rawSources": [
+          "modsview_json"
+        ]
+      },
+      "discoveredUniqueUrls": 12
+    }
+  }
+}

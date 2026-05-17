@@ -1,0 +1,6 @@
+.planner-layout-shell {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 1180px;
+  margin: 2rem auto;
+}

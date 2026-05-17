@@ -1,0 +1,4 @@
+Delete these unused files from the UI project when applying P2:
+
+web/src/features/equipment-planner/components/item-editor/DefenceBreakdownPanel.tsx
+web/src/features/equipment-planner/components/item-editor/ItemPropertySummary.tsx

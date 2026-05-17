@@ -1,0 +1,168 @@
+Base Prefix
+9000609# to maximum Life Life
+9000609# to maximum Mana Mana
+7000547# to maximum Energy Shield Defences
+7000657#% increased Energy Shield Defences
+6000786#% increased Energy Shield# to maximum Life LifeDefences
+7800759Adds # to # Physical Damage to Attacks DamagePhysicalAttack
+3900759Adds # to # Fire damage to Attacks DamageElementalFireAttack
+3900759Adds # to # Cold damage to Attacks DamageElementalColdAttack
+3900759Adds # to # Lightning damage to Attacks DamageElementalLightningAttack
+6200769# to Accuracy Rating Attack
+6370078Total
+
+Base Suffix
+9000819# to Dexterity Attribute
+8000748# to Intelligence Attribute
+8000828#% to Fire Resistance ElementalFireResistance
+8000828#% to Cold Resistance ElementalColdResistance
+8000828#% to Lightning Resistance ElementalLightningResistance
+1500816#% to Chaos Resistance ChaosResistance
+3500605#% reduced Attribute Requirements
+750412# to Level of all Melee Skills Attack
+5000815Leech #% of Physical Attack Damage as Life LifePhysicalAttack
+5000815Leech #% of Physical Attack Damage as Mana ManaPhysicalAttack
+6000778Gain # Life per enemy killed Life
+6000788Gain # Mana per enemy killed Mana
+4000404Gain # Life per Enemy Hit with Attacks LifeAttack
+2000604#% increased Attack Speed AttackSpeed
+3750595#% increased Critical Damage Bonus DamageCritical
+3000403#% increased Rarity of Items found
+4000484#% increased Energy Shield Recharge Rate Defences
+8550082Total
+
+desecratedsymbolDesecrated Modifiers Prefix
+desecratedsymbolDesecrated Modifiers Suffix
+0651+(13—17)% to Fire and Chaos Resistances amanamuElementalFireChaosResistance
+0652# to Strength and Intelligence amanamuAttribute
+# to Strength and Dexterity ulamanAttribute
+0651(10—20)% chance to Daze on Hit amanamu
+0651+(13—17)% to Cold and Chaos Resistances kurgalElementalColdChaosResistance
+0651+(9—15) to Dexterity and Intelligence kurgalAttribute
+0651(6—10)% increased Mana Cost Efficiency kurgalMana
+0651(10—15)% chance to Gain Arcane Surge when you deal a Critical Hit kurgalCritical
+0651(8—15)% increased Cast Speed when on Full Life kurgalCasterSpeed
+0651+(13—17)% to Lightning and Chaos Resistances ulamanElementalLightningChaosResistance
+0651(10—20)% increased Magnitude of Ailments you inflict ulamanDamageAilment
+0651(20—30)% increased chance to inflict Bleeding ulaman
+0651(8—12)% increased Skill Speed if you've consumed a Frenzy Charge Recently ulamanSpeed
+0651(15—25)% chance for Attack Hits to apply Incision ulamanDamagePhysicalAilment
+0651(20—30)% increased chance to Poison ulaman
+065Total
+
+EssenceEssence Prefix
+0463# to maximum Life Life
+0463# to maximum Mana Mana
+05418#% increased Armour, Evasion or Energy Shield Defences
+0582# to Accuracy Rating Attack
+011Mark of the Abyssal Lord
+058Total
+
+EssenceEssence Suffix
+0563#% to Chaos Resistance ChaosResistance
+0553# to Strength, Dexterity or Intelligence Attribute
+0553# to Strength, Dexterity or Intelligence Attribute
+0553# to Strength, Dexterity or Intelligence Attribute
+0451(25—29)% increased Critical Damage Bonus DamageCritical
+01160% increased effect of Socketed Items
+011Mark of the Abyssal Lord
+0603#% to Fire Resistance ElementalFireResistance
+0603#% to Cold Resistance ElementalColdResistance
+0603#% to Lightning Resistance ElementalLightningResistance
+0403#% increased Rarity of Items found
+060Total
+
+EssencePerfect Essence Prefix
+EssencePerfect Essence Suffix
+0721(26—30)% of Lightning Damage taken Recouped as Life LifeElementalLightning
+0721(10—15)% increased Quantity of Gold Dropped by Slain Enemies
+072Total
+
+FireRuneAugment
+013#% to Fire Resistance
+013#% to Cold Resistance
+013#% to Lightning Resistance
+013#% increased Armour, Evasion and Energy Shield
+013# to maximum Life
+013# to maximum Mana
+013Regenerate #% of maximum Life per second
+013#% increased Mana Regeneration Rate
+013# to Stun Threshold
+013#% increased Life and Mana Recovery from Flasks
+011+11% to Chaos Resistance
+011+5% to all Elemental Resistances
+011+1% to Maximum Fire Resistance
+01110% increased Quantity of Gold Dropped by Slain Enemies
+011Convert 20% of Requirements to Strength
+011Convert 20% of Requirements to Dexterity
+011Convert 20% of Requirements to Intelligence
+011Minions take 10% of Physical Damage as Lightning Damage
+0111 to 100 Lightning Thorns damage
+011Debuffs on you expire 8% faster
+01110% reduced effect of Shock on you
+013# to Strength
+013# to Dexterity
+013# to Intelligence
+013# to # Physical Thorns damage
+0115% increased Curse Magnitudes
+01115% increased Accuracy Rating
+01110% increased Magnitude of Bleeding you inflict
+011Gain 1 Rage on Melee Hit
+01120% increased Magnitude of Damaging Ailments you inflict
+01130% increased Magnitude of Non-Damaging Ailments you inflict
+0118% increased Cast Speed
+01120% increased Withered Magnitude
+011Adds 5 to 12 Physical Damage to Attacks
+0118% increased Attack Speed
+01120% increased total Power counted by Warcries
+011+40% of Armour also applies to Fire Damage
+01125% increased Life Cost Efficiency
+01140% increased effect of Arcane Surge on you
+011Critical Hit chance is Lucky against Parried enemies
+011One of your Persistent Minions revives when an Offering expires
+011Energy Shield Recharge starts after spending a total of 2000 Mana, no more than once every 2 seconds
+011Each Runic Inscription from your Curse Skills causes you to Regenerate Mana per second equal to 10% of that Skill's Mana Cost
+01Total
+
+ShamanRunesTalismansBonded Modifiers
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+011Minions have +10% to all Elemental Resistances
+01115% increased Thorns damage
+01115% increased Elemental Ailment Threshold
+01110% reduced Shock duration on you
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+013# to maximum Life# to maximum Mana
+011Remnants have 10% increased effect
+01120% increased Charm Charges gained
+01115% reduced Magnitude of Bleeding on You
+01115% increased Warcry Cooldown Recovery Rate
+01115% increased Duration of Damaging Ailments on Enemies
+01115% increased Duration of Elemental Ailments on Enemies
+01120% increased Mana Cost Efficiency while on Low Mana
+011+7% to Chaos Resistance
+011Fissure Skills have +2 to Limit
+01115% reduced Slowing Potency of Debuffs on You
+01120% increased Glory generation
+01Total
+
+CurrencyVaalCorrupted
+111(15—25)% increased Energy Shield Defences
+111(10—20)% reduced Attribute Requirements
+111Damage Penetrates (10—15)% Fire Resistance DamageElementalFire
+111Damage Penetrates (10—15)% Cold Resistance DamageElementalCold
+111Damage Penetrates (10—15)% Lightning Resistance DamageElementalLightning
+111Break (10—15)% increased Armour
+111(5—10)% increased Quantity of Gold Dropped by Slain Enemies
+111+1 to Maximum Frenzy Charges
+111+1 to Level of all Melee Skills Attack
+91Total
